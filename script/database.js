@@ -10,6 +10,7 @@ const data = [
     value: 100,
     addCart: "Adicionar ao carrinho",
     tag: ["Camisetas"],
+    quantity: 1,
   },
   {
     id: 2,
@@ -20,6 +21,7 @@ const data = [
     value: 100,
     addCart: "Adicionar ao carrinho",
     tag: ["Acessórios"],
+    quantity: 1,
   },
   {
     id: 3,
@@ -30,6 +32,7 @@ const data = [
     value: 40,
     addCart: "Adicionar ao carrinho",
     tag: ["Acessórios"],
+    quantity: 1,
   },
   {
     id: 4,
@@ -40,6 +43,7 @@ const data = [
     value: 100,
     addCart: "Adicionar ao carrinho",
     tag: ["Camisetas"],
+    quantity: 1,
   },
   {
     id: 5,
@@ -50,6 +54,7 @@ const data = [
     value: 100,
     addCart: "Adicionar ao carrinho",
     tag: ["Camisetas"],
+    quantity: 1,
   },
   {
     id: 6,
@@ -60,5 +65,6 @@ const data = [
     value: 100,
     addCart: "Adicionar ao carrinho",
     tag: ["Camisetas"],
+    quantity: 1,
   },
 ];

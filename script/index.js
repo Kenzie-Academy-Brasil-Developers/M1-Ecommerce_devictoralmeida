@@ -29,8 +29,10 @@ function renderProducts() {
     button.innerText = data[i].addCart;
     button.addEventListener("click", function () {
       if (cartProducts.includes(data[i])) {
-        alert(`O produto ${data[i].nameItem} já foi adicionado ao carrinho`);
+        data[i].quantity += 1;
+        renderCart();
       } else {
+        data[i].quantity = 1;
         cartProducts.push(data[i]);
         renderCart();
       }
@@ -112,10 +114,10 @@ function renderFilteredProducts(products) {
     button.innerText = products[i].addCart;
     button.addEventListener("click", function () {
       if (cartProducts.includes(products[i])) {
-        alert(
-          `O produto ${products[i].nameItem} já foi adicionado ao carrinho`
-        );
+        products[i].quantity += 1;
+        renderCart();
       } else {
+        products[i].quantity = 1;
         cartProducts.push(products[i]);
         renderCart();
       }
@@ -148,17 +150,38 @@ function searchProducts(searchTerm) {
 
 function renderCart() {
   emptyCartRender();
-  const quantityCart = document.querySelector("#quantity");
-  quantityCart.innerText = cartProducts.length;
   let cartProductList = document.createElement("ul");
   cartProductList.classList.add("cart-list");
   for (let i = 0; i < cartProducts.length; i++) {
+    let spanQuantity = document.createElement("span");
     let product = document.createElement("li");
     let div = document.createElement("div");
+    let divQuantity = document.createElement("div");
+    divQuantity.classList.add("quantity");
     let fig = document.createElement("figure");
     let img = document.createElement("img");
     let productTitle = document.createElement("h4");
     let value = document.createElement("p");
+    let removeBtn = document.createElement("button");
+    removeBtn.innerText = "-";
+    removeBtn.addEventListener("click", () => {
+      cartProducts[i].quantity--;
+      spanQuantity.innerText = cartProducts[i].quantity;
+      cartTotalvalue();
+      renderCart();
+      if (cartProducts[i].quantity === 0) {
+        cartProducts.splice(i, 1);
+        renderCart();
+        cartTotalvalue();
+      }
+    });
+    let addBtn = document.createElement("button");
+    addBtn.innerText = "+";
+    addBtn.addEventListener("click", () => {
+      cartProducts[i].quantity++;
+      spanQuantity.innerText = cartProducts[i].quantity;
+      cartTotalvalue();
+    });
     let removeProduct = document.createElement("button");
     removeProduct.addEventListener("click", function () {
       cartProducts.splice(i, 1);
@@ -169,12 +192,17 @@ function renderCart() {
     img.alt = cartProducts[i].nameItem;
     productTitle.innerText = cartProducts[i].nameItem;
     value.innerText = `R$: ${cartProducts[i].value}`;
+    spanQuantity.innerText = cartProducts[i].quantity;
     value.classList.add("emphasis");
     cartProductList.appendChild(product);
     product.appendChild(fig);
     fig.appendChild(img);
     div.appendChild(productTitle);
     div.appendChild(value);
+    divQuantity.appendChild(removeBtn);
+    divQuantity.appendChild(spanQuantity);
+    divQuantity.appendChild(addBtn);
+    div.appendChild(divQuantity);
     div.appendChild(removeProduct);
     product.appendChild(div);
   }
@@ -184,12 +212,16 @@ function renderCart() {
 
 function cartTotalvalue() {
   const totalValueInput = document.querySelector("#value");
+  const quantityCart = document.querySelector("#quantity");
   let totalValue = 0;
+  let totalQuantity = 0;
   for (let i = 0; i < cartProducts.length; i++) {
-    totalValue += cartProducts[i].value;
+    totalValue += cartProducts[i].value * cartProducts[i].quantity;
+    totalQuantity += cartProducts[i].quantity;
   }
   totalValueInput.innerText = `R$: ${totalValue}`;
-  return totalValueInput;
+  quantityCart.innerText = totalQuantity;
+  //return totalValueInput;
 }
 
 for (let i = 0; i < menuOptions.length; i++) {
